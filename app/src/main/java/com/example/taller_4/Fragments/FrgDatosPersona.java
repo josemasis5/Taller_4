@@ -1,5 +1,6 @@
 package com.example.taller_4.Fragments;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,13 +14,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.taller_4.Models.Persona;
+import com.example.taller_4.Models.Persona_Dao;
+import com.example.taller_4.Models.Persona_Database;
 import com.example.taller_4.R;
 
-public class My_Persona extends Fragment {
+public class FrgDatosPersona extends Fragment {
+
+    Persona_Database bdpersona;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        bdpersona  = Room.databaseBuilder(getContext(), Persona_Database.class, "localDB").allowMainThreadQueries().build();
     }
 
     @Override
@@ -43,22 +50,34 @@ public class My_Persona extends Fragment {
             @Override
             public void onClick(View v) {
                 //aqui va el codigo
+                Persona_Dao personaDao = bdpersona.getItemDAO();
+                Persona persona = new Persona();
+
                 String wNombre = wEditNombre.getText().toString();
                 String wApellido = wEditApellido.getText().toString();
                 String wMail = wEditMail.getText().toString();
                 String wTelefono = wEditTelefono.getText().toString();
 
+                persona.setNombre(wNombre);
+                persona.setApellido(wApellido);
+                persona.setEmail(wMail);
+                persona.setTelefono(wTelefono);
+                personaDao.insert(persona);
+
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
                 FrgListView lstPersonas = new FrgListView();
-                Bundle bundle = new Bundle();
+
+                /*Bundle bundle = new Bundle();
 
                 Persona objPersona = new Persona(wNombre,wApellido,wMail,wTelefono);   //Our Persona Object
                 bundle.putSerializable("Persona", objPersona);
-                lstPersonas.setArguments(bundle);
+                lstPersonas.setArguments(bundle);*/
+
+
                 ft.replace(android.R.id.content, lstPersonas);
-                ft.addToBackStack(null);     //Add fragment in back stack
+                //ft.addToBackStack(null);     //Add fragment in back stack
                 ft.commit();
 
             }

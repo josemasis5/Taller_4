@@ -8,5 +8,5 @@
     <string name="txtApellido">Digite el apellido...</string>
     <string name="txtEmail">Digite el email...</string>
     <string name="txtTelefono">Digite el telefono...</string>
-    <string name="btnEnvData">Enviar Datos</string>
+    <string name="btnEnvData">Guardar Datos</string>
 </resources>

@@ -1,11 +1,27 @@
 package com.example.taller_4.Models;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 import android.widget.ArrayAdapter;
 
 import java.io.Serializable;
 
+@Entity(tableName = "persona")
 
 public class Persona implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int id;
+
+    @NonNull
+    public int getId()
+    {
+        return id;
+    }
+
+
     private String nombre;
     private String apellido;
     private String email;
@@ -16,6 +32,10 @@ public class Persona implements Serializable {
         this.apellido = apellido;
         this.email = email;
         this.telefono = telefono;
+    }
+
+    public Persona() {
+
     }
 
     public String getNombre() {
@@ -48,5 +68,9 @@ public class Persona implements Serializable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
